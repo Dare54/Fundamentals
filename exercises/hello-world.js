@@ -1,3 +1,26 @@
+import React, {component} from 'react';
+import {Platform, StyleSheet, Text, View} from 'react-native';
+
+export default () => {
+	return (
+    <View
+      style={{
+        width: 100,
+        height: 100,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "green",
+      }}
+    >
+      <Text>Hello, world!</Text>
+    </View>
+  );
+};
+
+
+
+
+
 // Hello, World!
 
 // When using JSX React needs to be in scope. This means you have to import it.
