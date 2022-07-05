@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 
-const Button = ({ text, onPress }) => (
+const Button = ({ text, onPress, buttonStyle = {} }) => (
   <TouchableOpacity
     onPress={onPress}
     style={{
@@ -10,6 +10,7 @@ const Button = ({ text, onPress }) => (
       paddingHorizontal: 20,
       paddingVertical: 10,
       marginVertical: 15,
+      ...buttonStyle,
     }}
   >
     <Text style={{ color: "#fff" }}>{text}</Text>
@@ -19,6 +20,10 @@ const Button = ({ text, onPress }) => (
 export default () => (
   <View>
     <Button text="Say hello" onPress={() => alert("hello!")} />
-    <Button text="Say goodbye" onPress={() => alert("goodbye!")} />
+    <Button
+      text="Say goodbye"
+      onPress={() => alert("goodbye!")}
+      buttonStyle={{ backgroundColor: "#4dc2c2" }}
+    />
   </View>
 );
