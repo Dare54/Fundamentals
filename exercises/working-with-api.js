@@ -1,5 +1,12 @@
-import React from "react";
-import { FlatList, Text, View, StyleSheet, SafeAreaView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ActivityIndicator,
+} from "react-native";
 
 const styles = StyleSheet.create({
   row: {
@@ -13,16 +20,44 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     height: 1,
   },
+  loading: {
+    marginVertical: 20,
+  },
 });
 
+const usePeople = () => {
+  const [people, setPeople] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      fetch("https://randomuser.me/api/?results=100&inc=name")
+        .then((response) => response.json())
+        .then((response) => {
+          setPeople(response.results);
+        })
+        .catch((error) => {
+          console.log("error", error);
+          alert("Sorry, something went wrong.");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return { people, loading };
+};
+
 export default () => {
+  const { people, loading } = usePeople();
+
   return (
     <SafeAreaView>
       <FlatList
-        data={[
-          { name: { title: "Monsieur", first: "Emilio", last: "Legrand" } },
-          { name: { title: "Miss", first: "Linda", last: "King" } },
-        ]}
+        data={people}
         keyExtractor={(item) => `${item.name.first}-${item.name.last}`}
         renderItem={({ item }) => {
           return (
@@ -34,6 +69,17 @@ export default () => {
           );
         }}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListEmptyComponent={() => {
+          if (loading) {
+            return (
+              <View style={styles.loading}>
+                <ActivityIndicator size="large" />
+              </View>
+            );
+          }
+
+          return null;
+        }}
       />
     </SafeAreaView>
   );
