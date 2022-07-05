@@ -8,7 +8,7 @@ export default () => {
       <TouchableOpacity
         onPress={() => alert("hello 2!")}
         style={{
-          backgroundColor: "brown",
+          backgroundColor: "blue",
           paddingHorizontal: 10,
           paddingVertical: 5,
           alignSelf: "center",
